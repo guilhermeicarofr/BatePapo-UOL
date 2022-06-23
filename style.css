@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+    box-sizing: border-box;
+    max-width: 500px;
+}
+
+body > div {
+    max-width: 500px;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+body h1 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+div.top-bar {
+    width: 100%;
+    height: 80px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 22px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    border: 1px solid #FFFFFF;
+    margin-bottom: 80px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+}
+div.topbar img {
+    width: 73px;
+    height: 53px;
+}
+div.top-bar ion-icon {
+    font-size: 45px;
+}
+
+
+
+section.chat {
+    min-width: 100%;
+    min-height: 100vh;
+    padding-top: 100px;
+    padding-bottom: 80px;
+    height: auto;
+    background-color: #E5E5E5;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+section.chat div {
+    height: 40px;
+    min-width: 100%;
+    margin: 5px 0px;
+    display: flex;
+    align-items: center;
+}
+section.chat div.msg {
+    background-color: #FFFFFF;
+}
+section.chat div.status {
+    background-color: #DCDCDC;
+}
+section.chat div.pvt-msg {
+    background-color: #FFDEDE;
+}
+span.user, span.target {
+    font-weight: 700;
+}
+span.time {
+    color: #AAAAAA;
+}
+
+
+
+div.msg-box {
+    width: 100%;
+    height: 80px;
+    background-color: #FFFFFF;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.12);
+}
+div.msg-box textarea {
+    width: 100vw;
+    height: 74px;
+    padding: 15px 55px 15px 15px;
+    position: absolute;
+    bottom: 3px;
+    left: 0px;
+    font-size: 18px;
+    outline: none;
+    border: none;
+    resize: none;
+}
+div.msg-box textarea::placeholder {
+    padding-top: 10px;
+    color: #000000;
+    font-style: italic;
+}
+div.msg-box textarea::value {
+    padding-top: 10px;
+}
+div.msg-box textarea::-webkit-scrollbar {
+    display: none;
+}
+div.msg-box ion-icon {
+    font-size: 26px;
+    position: absolute;
+    bottom: 27px;
+    right: 18px;
+}
