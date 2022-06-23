@@ -1,9 +1,12 @@
+let username = '';
+
+
+
 function refreshChat() {
     console.log("refresh");
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
     promise.then(renderChat);
 }
-
 function renderChat(get) {
     const chat = get.data;
     document.querySelector('.chat').innerHTML = '';
@@ -59,5 +62,22 @@ function renderChat(get) {
     }
 }
 
+function logIn(name) {
+    console.log(name);
+    username = name;
+    console.log(`Login: ${username}`);
+    
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",{name:username});
 
+    promise.then(setInterval(userOnline,5000));
+    promise.catch();
+}
+function userOnline() {
+    console.log(`Online: ${username}`);
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status",{name:username});
+}
+
+
+
+logIn(prompt('Seu nome:'));
 setInterval(refreshChat, 3000);
