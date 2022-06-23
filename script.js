@@ -70,14 +70,21 @@ function logIn(name) {
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",{name:username});
 
     promise.then(setInterval(userOnline,5000));
-    promise.catch();
+    promise.catch(invalidUser);
 }
 function userOnline() {
     console.log(`Online: ${username}`);
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status",{name:username});
 }
+function invalidUser(error) {
+    console.log(error.response.status);
+    logIn(prompt('Nome de usuário já em uso! Insira um novo nome:'));
+}
 
+// function sendMsg() {
 
+// }
 
-logIn(prompt('Seu nome:'));
+logIn(prompt('Insira nome de usuário:'));
+refreshChat();
 setInterval(refreshChat, 3000);
