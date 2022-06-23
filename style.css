@@ -2,12 +2,10 @@
 
 * {
     box-sizing: border-box;
-    max-width: 500px;
 }
 
 body > div {
-    max-width: 500px;
-    width: 100vw;
+    min-width: 100vw;
     height: 100vh;
     position: relative;
     display: flex;
@@ -57,12 +55,17 @@ section.chat {
     flex-direction: column;
     overflow-y: scroll;
 }
+section.chat::-webkit-scrollbar {
+    display: none;
+}
 section.chat div {
-    height: 40px;
+    min-height: 40px;
+    height: auto;
     min-width: 100%;
-    margin: 5px 0px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
+    overflow: hidden;   /*necessário corrigir o caso de overflow para manipular o tamanho da DIV*/
 }
 section.chat div.msg {
     background-color: #FFFFFF;
