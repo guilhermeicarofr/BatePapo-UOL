@@ -42,18 +42,19 @@ function renderChat(get) {
                 break;
 
             case "private-message":
-                document.querySelector('.chat').innerHTML += `
-                    <div class="pvt-msg">
-                        &nbsp;
-                        <span class="time">(${chat[i].time})</span>
-                        &nbsp;
-                        <span class="user">${chat[i].from}</span>
-                        &nbsp;reservadamente&nbsp;para&nbsp;
-                        <span class="target">${chat[i].to}</span>
-                        :&nbsp;
-                        <span class="text">${chat[i].text}</span>
-                    </div>
-                `;
+                if (chat[i].to === username || chat[i].from === username)
+                    document.querySelector('.chat').innerHTML += `
+                        <div class="pvt-msg">
+                            &nbsp;
+                            <span class="time">(${chat[i].time})</span>
+                            &nbsp;
+                            <span class="user">${chat[i].from}</span>
+                            &nbsp;reservadamente&nbsp;para&nbsp;
+                            <span class="target">${chat[i].to}</span>
+                            :&nbsp;
+                            <span class="text">${chat[i].text}</span>
+                        </div>
+                    `;
                 break;
         }
 
