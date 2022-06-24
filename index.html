@@ -12,7 +12,7 @@
     <div>
         <div class="top-bar">
             <img src="images/logo.png">
-            <ion-icon name="people"></ion-icon>
+            <ion-icon onclick="sidemenuOn()" name="people"></ion-icon>
         </div>
     
         <section class="chat"></section>
@@ -22,21 +22,20 @@
             <ion-icon onclick="sendMsg()" name="paper-plane-outline"></ion-icon>
         </div>
     
-        <!-- <div class="side-menu">
+        <div class="side-menu hidden">
+            <div onclick="sidemenuOff()"></div>
             <div>
                 <h1>Escolha um contato para enviar mensagem:</h1>
-                <ul>
-                    <li><ion-icon name="heart-outline"></ion-icon>Todos</li>
-                    <li><ion-icon name="heart-outline"></ion-icon>Ativo1</li>
-                    <li><ion-icon name="heart-outline"></ion-icon>Ativo2</li>
+                <ul class="userlist">
+                    <li><ion-icon name="people"></ion-icon> Todos <ion-icon name="checkmark-sharp"></ion-icon> </li>
                 </ul>
                 <h1>Escolha a visibilidade:</h1>
                 <ul>
-                    <li><ion-icon name="heart-outline"></ion-icon>Público</li>
-                    <li><ion-icon name="heart-outline"></ion-icon>Reservadamente</li>
+                    <li><ion-icon name="lock-open"></ion-icon> Público <ion-icon name="checkmark-sharp"></ion-icon> </li>
+                    <li><ion-icon name="lock-closed"></ion-icon> Reservadamente <ion-icon name="checkmark-sharp"></ion-icon> </li>
                 </ul>
             </div>
-        </div> -->
+        </div>
     
         <!-- <div class="login">
             <img src="" alt="">
@@ -45,7 +44,8 @@
         </div> -->
     </div>
 
-    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="script.js"></script>
 </body>

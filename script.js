@@ -4,7 +4,7 @@ let msgType = "message";
 
 
 function refreshChat() {
-    console.log("refresh");
+    console.log("refreshChat");
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
     promise.then(renderChat);
 }
@@ -106,8 +106,29 @@ function failMsg(error) {
         window.location.reload();
 }
 
-
+function sidemenuOn() {
+    document.querySelector("div.side-menu").classList.remove("hidden");
+    activeUsers();
+    setInterval(activeUsers, 10000);
+}
+function sidemenuOff() {
+    document.querySelector("div.side-menu").classList.add("hidden");
+}
+function activeUsers() {
+    console.log("activeUsers");
+    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
+    promise.then(renderUsers);
+}
+function renderUsers(get) {
+    const userlist = get.data;
+    document.querySelector(".userlist").innerHTML = '';
+    document.querySelector(".userlist").innerHTML = '<li><ion-icon name="people"></ion-icon>Todos<ion-icon name="checkmark-sharp"></ion-icon> </li>';
+    
+    for (let i=0 ; i<userlist.length ; i++) {
+        document.querySelector(".userlist").innerHTML += `<li><ion-icon name="person-circle"></ion-icon>${userlist[i].name}<ion-icon name="checkmark-sharp"></ion-icon></li>`;
+    }
+}
 
 refreshChat();
 logIn(prompt('Insira nome de usuário:'));
-setInterval(refreshChat, 300); //Alterar para 3000ms cmo na especificação
+setInterval(refreshChat, 3000); //Alterar para 3000ms cmo na especificação

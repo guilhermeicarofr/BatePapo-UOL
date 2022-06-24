@@ -129,3 +129,59 @@ div.msg-box ion-icon {
     right: 18px;
     z-index: 1;
 }
+
+
+
+div.side-menu {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+div.side-menu.hidden {
+    display: none;
+}
+div.side-menu > div:nth-of-type(1) {
+    background-color: #000000;
+    opacity: 0.6;
+    height: 100vh;
+    width: 100vw;
+}
+div.side-menu > div:nth-of-type(2) {
+    height: 100vh;
+    width: 260px;
+    background-color: #FFFFFF;
+    opacity: 1.0;
+    z-index: 2;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 10px 20px 20px 20px;
+    font-size: 16px;
+}
+div.side-menu > div:nth-of-type(2) h1 {
+    margin: 20px 0px;
+}
+div.side-menu > div:nth-of-type(2) li {
+    display: flex;
+    align-items: center;
+}
+div.side-menu > div:nth-of-type(2) li:hover {
+    background-color: #F3F3F3;
+    cursor: pointer;
+}
+div.side-menu > div:nth-of-type(2) li ion-icon {
+    font-size: 25px;
+    margin-right: 5px;
+}
+
+div.side-menu > div:nth-of-type(2) li ion-icon:last-of-type {
+    position: absolute;
+    right: 30px;
+    color: green;
+    opacity: 0;
+}
+div.side-menu > div:nth-of-type(2) li.selected ion-icon:last-of-type{
+    opacity: 1;
+}
