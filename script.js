@@ -1,5 +1,6 @@
 let username = '';
-
+let target = "Todos";
+let msgType = "message";
 
 
 function refreshChat() {
@@ -7,7 +8,7 @@ function refreshChat() {
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
     promise.then(renderChat);
 }
-function renderChat(get) {
+function renderChat(get) { //Verificar quebra de linha em nomes grandes de usuários
     const chat = get.data;
     document.querySelector('.chat').innerHTML = '';
     for (let i=0 ; i<chat.length ; i++) {
@@ -64,28 +65,49 @@ function renderChat(get) {
 }
 
 function logIn(name) {
-    console.log(name);
     username = name;
     console.log(`Login: ${username}`);
-    
-    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",{name:username});
 
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",{name:username});
     promise.then(setInterval(userOnline,5000));
     promise.catch(invalidUser);
 }
-function userOnline() {
-    console.log(`Online: ${username}`);
+function userOnline() { //Verificar depois de algum tempo online a requisição começa a retornar BAD REQUEST
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status",{name:username});
+    promise.then(console.log(`Online: ${username}`));
 }
 function invalidUser(error) {
     console.log(error.response.status);
-    logIn(prompt('Nome de usuário já em uso! Insira um novo nome:'));
+    if (error.response.status === 400)
+        logIn(prompt('Nome de usuário já em uso! Insira um novo nome:'));
 }
 
-// function sendMsg() {
+function sendMsg() { //Investigar reload/crash da página quando uso o input com enter na textarea. não é problema na função nem erro de bad request. Algum problema no html mesmo
+    const text = document.querySelector('.msg-box input').value;
+    console.log(`${msgType} from ${username} to ${target}: ${text}`);
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages",{
+        from: username,
+    	to: target,
+	    text: text,
+	    type: msgType
+    });
 
-// }
+    promise.then(refreshChat);
+    promise.catch(failMsg);
 
-logIn(prompt('Insira nome de usuário:'));
+    document.querySelector('.msg-box input').value = '';
+    target = "Todos";
+    msgType = "message";
+}
+function failMsg(error) {
+    console.log(error.response.status);
+    if (error.response.status === 400)
+        console.log(error.response);
+        window.location.reload();
+}
+
+
+
 refreshChat();
-setInterval(refreshChat, 3000);
+logIn(prompt('Insira nome de usuário:'));
+setInterval(refreshChat, 300); //Alterar para 3000ms cmo na especificação

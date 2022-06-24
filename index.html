@@ -18,8 +18,8 @@
         <section class="chat"></section>
     
         <div class="msg-box">
-            <textarea placeholder="Escreva aqui..."></textarea>
-            <ion-icon name="paper-plane-outline"></ion-icon>
+            <form onsubmit="sendMsg()"><input placeholder="Escreva aqui..."></input></form>
+            <ion-icon onclick="sendMsg()" name="paper-plane-outline"></ion-icon>
         </div>
     
         <!-- <div class="side-menu">

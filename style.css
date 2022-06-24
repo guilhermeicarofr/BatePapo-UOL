@@ -65,6 +65,7 @@ section.chat div {
     margin-bottom: 5px;
     display: flex;
     align-items: center;
+    overflow-y: auto;
 }
 section.chat div.msg {
     background-color: #FFFFFF;
@@ -96,7 +97,7 @@ div.msg-box {
     left: 0px;
     box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.12);
 }
-div.msg-box textarea {
+div.msg-box input {
     width: 100vw;
     height: 74px;
     padding: 15px 55px 15px 15px;
@@ -108,15 +109,17 @@ div.msg-box textarea {
     border: none;
     resize: none;
 }
-div.msg-box textarea::placeholder {
+div.msg-box input::placeholder {
     padding-top: 10px;
     color: #000000;
     font-style: italic;
 }
-div.msg-box textarea::value {
+div.msg-box input::value {
     padding-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
 }
-div.msg-box textarea::-webkit-scrollbar {
+div.msg-box input::-webkit-scrollbar {
     display: none;
 }
 div.msg-box ion-icon {
@@ -124,4 +127,5 @@ div.msg-box ion-icon {
     position: absolute;
     bottom: 27px;
     right: 18px;
+    z-index: 1;
 }
