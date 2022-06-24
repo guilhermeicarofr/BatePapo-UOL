@@ -175,6 +175,9 @@ div.side-menu > div:nth-of-type(2) li ion-icon {
     font-size: 25px;
     margin-right: 5px;
 }
+div.side-menu > div:nth-of-type(2) li.user ion-icon {
+    color: #415dd6;
+}
 
 div.side-menu > div:nth-of-type(2) li ion-icon:last-of-type {
     position: absolute;

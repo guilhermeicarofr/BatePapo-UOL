@@ -122,11 +122,21 @@ function activeUsers() {
 function renderUsers(get) {
     const userlist = get.data;
     document.querySelector(".userlist").innerHTML = '';
-    document.querySelector(".userlist").innerHTML = '<li><ion-icon name="people"></ion-icon>Todos<ion-icon name="checkmark-sharp"></ion-icon> </li>';
+    document.querySelector(".userlist").innerHTML = '<li onclick="selectTarget(this)"><ion-icon name="people"></ion-icon>Todos<ion-icon name="checkmark-sharp"></ion-icon> </li>';
     
     for (let i=0 ; i<userlist.length ; i++) {
-        document.querySelector(".userlist").innerHTML += `<li><ion-icon name="person-circle"></ion-icon>${userlist[i].name}<ion-icon name="checkmark-sharp"></ion-icon></li>`;
+        if (userlist[i].name === username)
+            document.querySelector(".userlist").innerHTML += `<li class="user"><ion-icon name="person-circle"></ion-icon>(Eu) ${userlist[i].name}<ion-icon name="checkmark-sharp"></ion-icon></li>`;
+        else
+            document.querySelector(".userlist").innerHTML += `<li onclick="selectTarget(this)"><ion-icon name="person-circle"></ion-icon>${userlist[i].name}<ion-icon name="checkmark-sharp"></ion-icon></li>`;    
     }
+}
+function selectTarget(li) {
+    const user = li;
+    user.classList.add("selected");  
+}
+function selectType() {
+
 }
 
 refreshChat();
