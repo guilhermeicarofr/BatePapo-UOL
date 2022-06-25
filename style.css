@@ -111,7 +111,6 @@ div.msg-box input {
     resize: none;
 }
 div.msg-box input::placeholder {
-    padding-top: 10px;
     color: #000000;
     font-style: italic;
 }
@@ -129,6 +128,17 @@ div.msg-box ion-icon {
     bottom: 27px;
     right: 18px;
     z-index: 1;
+}
+div.msg-box p {
+    font-size: 14px;
+    font-weight: 300;
+    color: #505050;
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+}
+div.msg-box p.hidden {
+    display: none;
 }
 
 

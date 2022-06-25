@@ -154,6 +154,8 @@ function selectAll() {
     const participants = document.querySelectorAll(".side-menu > div:nth-of-type(2) ul:nth-of-type(1) li");
     for(let i=0 ; i<participants.length ; i++)
         uncheck(participants[i]);
+
+    document.querySelector("div.msg-box p").classList.add("hidden");
 }
 function selectTarget(element) {
     const li = element;
@@ -164,6 +166,9 @@ function selectTarget(element) {
     
     console.log(`${msgType} Target: ${target}`);
 
+    document.querySelector("div.msg-box p").innerHTML = `Enviando para ${target} (Reservadamente)`;
+    document.querySelector("div.msg-box p").classList.remove("hidden");
+    
     document.querySelector("li.pvt-message").classList.add("selected");
     document.querySelector("li.all").classList.remove("selected");
     document.querySelector("li.message").classList.remove("selected");
