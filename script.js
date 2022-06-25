@@ -84,7 +84,7 @@ function invalidUser(error) {
 }
 
 
-function sendMsg() { //Investigar reload/crash da página quando uso o input com enter na textarea. não é problema na função nem erro de bad request. Algum problema no html mesmo
+function sendMsg() {
     const text = document.querySelector('.msg-box input').value;
     console.log(`${msgType} from ${username} to ${target}: ${text}`);
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages",{
@@ -112,7 +112,6 @@ function failMsg(error) {
 function sidemenuOn() {
     document.querySelector("div.side-menu").classList.remove("hidden");
     activeUsers();
-    setInterval(activeUsers, 2000);
 }
 function sidemenuOff() {
     document.querySelector("div.side-menu").classList.add("hidden");
@@ -143,7 +142,19 @@ function renderUsers(get) {
     }
 }
 
+function selectAll() {
+    target = "Todos";
+    msgType = "message";
 
+    console.log(`${msgType} Target: ${target}`);
+
+    document.querySelector("li.all").classList.add("selected");
+    document.querySelector("li.message").classList.add("selected");
+    document.querySelector("li.pvt-message").classList.remove("selected");
+    const participants = document.querySelectorAll(".side-menu > div:nth-of-type(2) ul:nth-of-type(1) li");
+    for(let i=0 ; i<participants.length ; i++)
+        uncheck(participants[i]);
+}
 function selectTarget(element) {
     const li = element;
     li.classList.add("selected");
@@ -160,24 +171,22 @@ function selectTarget(element) {
     for(let i=0 ; i<participants.length ; i++)
         uncheck(participants[i]);
 }
-function selectAll() {
-    target = "Todos";
-    msgType = "message";
-
-    console.log(`${msgType} Target: ${target}`);
-
-    document.querySelector("li.all").classList.add("selected");
-    document.querySelector("li.message").classList.add("selected");
-    document.querySelector("li.pvt-message").classList.remove("selected");
-    const participants = document.querySelectorAll(".side-menu > div:nth-of-type(2) ul:nth-of-type(1) li");
-    for(let i=0 ; i<participants.length ; i++)
-        uncheck(participants[i]);
-}
 function uncheck(element) {
     element.classList.remove("selected");
 }
 
 
+function initInput() {
+    const msgInput = document.querySelector("div.msg-box form");
+    msgInput.addEventListener('submit', inputEvent);
+}
+function inputEvent(event) {
+    event.preventDefault();
+}
+
+
 refreshChat();
+initInput();
 logIn(prompt('Insira nome de usuário:'));
-setInterval(refreshChat, 3000); //Alterar para 3000ms cmo na especificação
+setInterval(refreshChat, 3000); //Alterar para 3000ms como na especificação
+setInterval(activeUsers, 2000); //Altera para 10000ms
