@@ -69,10 +69,10 @@ function logIn(name) {
     console.log(`Login: ${username}`);
 
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",{name:username});
-    promise.then(setInterval(userOnline,10000));
+    promise.then(setInterval(userOnline,5000));
     promise.catch(invalidUser);
 }
-function userOnline() { //Verificar depois de algum tempo online a requisição começa a retornar BAD REQUEST
+function userOnline() {
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status",{name:username});
     promise.then(console.log(`Online: ${username}`));
     promise.catch(invalidUser);
@@ -168,7 +168,7 @@ function selectTarget(element) {
 
     document.querySelector("div.msg-box p").innerHTML = `Enviando para ${target} (Reservadamente)`;
     document.querySelector("div.msg-box p").classList.remove("hidden");
-    
+
     document.querySelector("li.pvt-message").classList.add("selected");
     document.querySelector("li.all").classList.remove("selected");
     document.querySelector("li.message").classList.remove("selected");
@@ -194,4 +194,4 @@ refreshChat();
 initInput();
 logIn(prompt('Insira nome de usuário:'));
 setInterval(refreshChat, 3000); //Alterar para 3000ms como na especificação
-setInterval(activeUsers, 2000); //Altera para 10000ms
+setInterval(activeUsers, 3000); //Alterar para 10000ms
