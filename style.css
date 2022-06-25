@@ -78,6 +78,7 @@ section.chat div.pvt-msg {
 }
 span.user, span.target {
     font-weight: 700;
+    word-break: break-all;
 }
 span.time {
     color: #AAAAAA;
@@ -159,6 +160,7 @@ div.side-menu > div:nth-of-type(2) {
     right: 0px;
     padding: 10px 20px 20px 20px;
     font-size: 16px;
+    overflow-y: scroll;
 }
 div.side-menu > div:nth-of-type(2) h1 {
     margin: 20px 0px;
@@ -166,6 +168,7 @@ div.side-menu > div:nth-of-type(2) h1 {
 div.side-menu > div:nth-of-type(2) li {
     display: flex;
     align-items: center;
+    word-break: break-all;
 }
 div.side-menu > div:nth-of-type(2) li:hover {
     background-color: #F3F3F3;
@@ -173,6 +176,7 @@ div.side-menu > div:nth-of-type(2) li:hover {
 }
 div.side-menu > div:nth-of-type(2) li ion-icon {
     font-size: 25px;
+    min-width: 25px;
     margin-right: 5px;
 }
 div.side-menu > div:nth-of-type(2) li.user ion-icon {

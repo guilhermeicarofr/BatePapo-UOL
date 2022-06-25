@@ -4,13 +4,14 @@ let msgType = "message";
 
 
 function refreshChat() {
-    console.log("refreshChat");
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
     promise.then(renderChat);
+    promise.then(console.log("Refresh chat"))
 }
-function renderChat(get) { //Verificar quebra de linha em nomes grandes de usuários
+function renderChat(get) {
     const chat = get.data;
     document.querySelector('.chat').innerHTML = '';
+
     for (let i=0 ; i<chat.length ; i++) {
 
         switch (chat[i].type) {
@@ -42,7 +43,7 @@ function renderChat(get) { //Verificar quebra de linha em nomes grandes de usuá
                 `;
                 break;
 
-            case "private-message":
+            case "private_message":
                 if (chat[i].to === username || chat[i].from === username)
                     document.querySelector('.chat').innerHTML += `
                         <div class="pvt-msg">
@@ -58,29 +59,30 @@ function renderChat(get) { //Verificar quebra de linha em nomes grandes de usuá
                     `;
                 break;
         }
-
         document.querySelector('.chat div:last-of-type').scrollIntoView();
-
     }
 }
+
 
 function logIn(name) {
     username = name;
     console.log(`Login: ${username}`);
 
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",{name:username});
-    promise.then(setInterval(userOnline,5000));
+    promise.then(setInterval(userOnline,10000));
     promise.catch(invalidUser);
 }
 function userOnline() { //Verificar depois de algum tempo online a requisição começa a retornar BAD REQUEST
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status",{name:username});
     promise.then(console.log(`Online: ${username}`));
+    promise.catch(invalidUser);
 }
 function invalidUser(error) {
     console.log(error.response.status);
     if (error.response.status === 400)
         logIn(prompt('Nome de usuário já em uso! Insira um novo nome:'));
 }
+
 
 function sendMsg() { //Investigar reload/crash da página quando uso o input com enter na textarea. não é problema na função nem erro de bad request. Algum problema no html mesmo
     const text = document.querySelector('.msg-box input').value;
@@ -89,27 +91,28 @@ function sendMsg() { //Investigar reload/crash da página quando uso o input com
         from: username,
     	to: target,
 	    text: text,
-	    type: msgType
+	    type: msgType,
     });
 
+    promise.then(selectAll);
     promise.then(refreshChat);
     promise.catch(failMsg);
-
     document.querySelector('.msg-box input').value = '';
-    target = "Todos";
-    msgType = "message";
 }
 function failMsg(error) {
     console.log(error.response.status);
-    if (error.response.status === 400)
+    if (error.response.status === 400) {
         console.log(error.response);
+        selectAll();
         window.location.reload();
+    }
 }
+
 
 function sidemenuOn() {
     document.querySelector("div.side-menu").classList.remove("hidden");
     activeUsers();
-    setInterval(activeUsers, 10000);
+    setInterval(activeUsers, 2000);
 }
 function sidemenuOff() {
     document.querySelector("div.side-menu").classList.add("hidden");
@@ -122,22 +125,58 @@ function activeUsers() {
 function renderUsers(get) {
     const userlist = get.data;
     document.querySelector(".userlist").innerHTML = '';
-    document.querySelector(".userlist").innerHTML = '<li onclick="selectTarget(this)"><ion-icon name="people"></ion-icon>Todos<ion-icon name="checkmark-sharp"></ion-icon> </li>';
-    
+
+    //User "Todos"
+    if (msgType === "message")
+        document.querySelector(".userlist").innerHTML += '<li onclick="selectAll()" class="all selected"><ion-icon name="people"></ion-icon>Todos<ion-icon name="checkmark-sharp"></ion-icon> </li>';
+    else if (msgType === "private_message")
+        document.querySelector(".userlist").innerHTML += '<li onclick="selectAll()" class="all"><ion-icon name="people"></ion-icon>Todos<ion-icon name="checkmark-sharp"></ion-icon> </li>';
+
+    //Users Ativos
     for (let i=0 ; i<userlist.length ; i++) {
         if (userlist[i].name === username)
-            document.querySelector(".userlist").innerHTML += `<li class="user"><ion-icon name="person-circle"></ion-icon>(Eu) ${userlist[i].name}<ion-icon name="checkmark-sharp"></ion-icon></li>`;
+            document.querySelector(".userlist").innerHTML += `<li class="user"><ion-icon name="person-circle"></ion-icon><span>(Eu) ${userlist[i].name}</span><ion-icon name="checkmark-sharp"></ion-icon></li>`;
+        else if (userlist[i].name === target)
+            document.querySelector(".userlist").innerHTML += `<li class="selected" onclick="selectTarget(this)"><ion-icon name="person-circle"></ion-icon><span>${userlist[i].name}</span><ion-icon name="checkmark-sharp"></ion-icon></li>`;
         else
-            document.querySelector(".userlist").innerHTML += `<li onclick="selectTarget(this)"><ion-icon name="person-circle"></ion-icon>${userlist[i].name}<ion-icon name="checkmark-sharp"></ion-icon></li>`;    
+            document.querySelector(".userlist").innerHTML += `<li onclick="selectTarget(this)"><ion-icon name="person-circle"></ion-icon><span>${userlist[i].name}</span><ion-icon name="checkmark-sharp"></ion-icon></li>`;
     }
 }
-function selectTarget(li) {
-    const user = li;
-    user.classList.add("selected");  
-}
-function selectType() {
 
+
+function selectTarget(element) {
+    const li = element;
+    li.classList.add("selected");
+    
+    target = `${li.querySelector("span").innerHTML}`;
+    msgType = "private_message";
+    
+    console.log(`${msgType} Target: ${target}`);
+
+    document.querySelector("li.pvt-message").classList.add("selected");
+    document.querySelector("li.all").classList.remove("selected");
+    document.querySelector("li.message").classList.remove("selected");
+    const participants = document.querySelectorAll(".side-menu > div:nth-of-type(2) ul:nth-of-type(1) li");
+    for(let i=0 ; i<participants.length ; i++)
+        uncheck(participants[i]);
 }
+function selectAll() {
+    target = "Todos";
+    msgType = "message";
+
+    console.log(`${msgType} Target: ${target}`);
+
+    document.querySelector("li.all").classList.add("selected");
+    document.querySelector("li.message").classList.add("selected");
+    document.querySelector("li.pvt-message").classList.remove("selected");
+    const participants = document.querySelectorAll(".side-menu > div:nth-of-type(2) ul:nth-of-type(1) li");
+    for(let i=0 ; i<participants.length ; i++)
+        uncheck(participants[i]);
+}
+function uncheck(element) {
+    element.classList.remove("selected");
+}
+
 
 refreshChat();
 logIn(prompt('Insira nome de usuário:'));
