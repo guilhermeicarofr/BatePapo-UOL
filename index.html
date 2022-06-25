@@ -18,7 +18,7 @@
         <section class="chat"></section>
     
         <div class="msg-box">
-            <form onsubmit="sendMsg()"><input placeholder="Escreva aqui..."></input></form>
+            <form onsubmit="sendMsg()"><input type="text" placeholder="Escreva aqui..."></form>
             <ion-icon onclick="sendMsg()" name="paper-plane-outline"></ion-icon>
             <p class="hidden"></p>
         </div>
@@ -30,16 +30,20 @@
                 <ul class="userlist"></ul>
                 <h1>Escolha a visibilidade:</h1>
                 <ul>
-                    <li onclick="selectAll()" class="message selected"><ion-icon name="lock-open"></ion-icon> Público <ion-icon name="checkmark-sharp"></ion-icon> </li>
-                    <li class="pvt-message"><ion-icon name="lock-closed"></ion-icon> Reservadamente <ion-icon name="checkmark-sharp"></ion-icon> </li>
+                    <li onclick="selectAll()" class="message selected" data-identifier="visibility"><ion-icon name="lock-open"></ion-icon> Público <ion-icon name="checkmark-sharp"></ion-icon> </li>
+                    <li class="pvt-message" data-identifier="visibility"><ion-icon name="lock-closed"></ion-icon> Reservadamente <ion-icon name="checkmark-sharp"></ion-icon> </li>
                 </ul>
             </div>
         </div>
     
         <!-- <div class="login hidden">
             <img src="" alt="">
-            <input type="text">
+            <input type="text" placeholder="Digite seu nome">
             <button>Entrar</button>
+            <div class="loading hidden">
+                <img src="" alt="">
+                Entrando...
+            </div>
         </div> -->
     </div>
 

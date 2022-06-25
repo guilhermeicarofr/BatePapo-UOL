@@ -69,7 +69,7 @@ function logIn(name) {
     console.log(`Login: ${username}`);
 
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",{name:username});
-    promise.then(setInterval(userOnline,5000));
+    promise.then(setInterval(userOnline,5000)); //Especificação 5000ms
     promise.catch(invalidUser);
 }
 function userOnline() {
@@ -134,11 +134,11 @@ function renderUsers(get) {
     //Users Ativos
     for (let i=0 ; i<userlist.length ; i++) {
         if (userlist[i].name === username)
-            document.querySelector(".userlist").innerHTML += `<li class="user"><ion-icon name="person-circle"></ion-icon><span>(Eu) ${userlist[i].name}</span><ion-icon name="checkmark-sharp"></ion-icon></li>`;
+            document.querySelector(".userlist").innerHTML += `<li class="user" data-identifier="participant"><ion-icon name="person-circle"></ion-icon><span>(Eu) ${userlist[i].name}</span><ion-icon name="checkmark-sharp"></ion-icon></li>`;
         else if (userlist[i].name === target)
-            document.querySelector(".userlist").innerHTML += `<li class="selected" onclick="selectTarget(this)"><ion-icon name="person-circle"></ion-icon><span>${userlist[i].name}</span><ion-icon name="checkmark-sharp"></ion-icon></li>`;
+            document.querySelector(".userlist").innerHTML += `<li class="selected" onclick="selectTarget(this)" data-identifier="participant"><ion-icon name="person-circle"></ion-icon><span>${userlist[i].name}</span><ion-icon name="checkmark-sharp"></ion-icon></li>`;
         else
-            document.querySelector(".userlist").innerHTML += `<li onclick="selectTarget(this)"><ion-icon name="person-circle"></ion-icon><span>${userlist[i].name}</span><ion-icon name="checkmark-sharp"></ion-icon></li>`;
+            document.querySelector(".userlist").innerHTML += `<li onclick="selectTarget(this)" data-identifier="participant"><ion-icon name="person-circle"></ion-icon><span>${userlist[i].name}</span><ion-icon name="checkmark-sharp"></ion-icon></li>`;
     }
 }
 
@@ -193,5 +193,5 @@ function inputEvent(event) {
 refreshChat();
 initInput();
 logIn(prompt('Insira nome de usuário:'));
-setInterval(refreshChat, 3000); //Alterar para 3000ms como na especificação
-setInterval(activeUsers, 3000); //Alterar para 10000ms
+setInterval(refreshChat, 3000); //Especificação 3000ms
+setInterval(activeUsers, 10000); //Especificação 10000ms
