@@ -82,14 +82,14 @@ function userOnline() {
         document.querySelector("div.login").classList.add("hidden");
 }
 function invalidUser(error) {
-    clearInterval(ping);
+    clearInterval(userping);
     console.log(error.response.status);
     
     if ((document.querySelector("div.login").classList.contains("hidden")))
         document.querySelector("div.login").classList.remove("hidden");
     document.querySelector("div.loading").classList.add("hidden");
     document.querySelector("div.login h2.alert").classList.remove("hidden");
-    setTimeout(reloadLogIn,3000);
+    setTimeout(reloadLogIn,2000);
 }
 
 
@@ -226,4 +226,4 @@ function gmtConvert(time) {
 refreshChat();
 initInput();
 setInterval(refreshChat, 3000); //Especificação 3000ms
-setInterval(activeUsers, 3000); //Especificação 10000ms
+setInterval(activeUsers, 3000); //Especificação 10000ms, alterado pela fluidez da aplicação

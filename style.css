@@ -169,6 +169,9 @@ div.side-menu > div:nth-of-type(2) {
     font-size: 16px;
     overflow-y: scroll;
 }
+div.side-menu > div:nth-of-type(2)::-webkit-scrollbar {
+    display: none;
+}
 div.side-menu > div:nth-of-type(2) h1 {
     margin: 20px 0px;
 }
