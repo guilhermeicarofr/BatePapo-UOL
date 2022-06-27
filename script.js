@@ -1,6 +1,7 @@
 let username = '';
 let target = "Todos";
 let msgType = "message";
+let userping;
 
 
 function refreshChat() {
@@ -19,7 +20,7 @@ function renderChat(get) {
                 document.querySelector('.chat').innerHTML += `
                     <div class="msg">
                         &nbsp;
-                        <span class="time">(${chat[i].time})</span>
+                        <span class="time">(${gmtConvert(chat[i].time)})</span>
                         &nbsp;
                         <span class="user">${chat[i].from}</span>
                         &nbsp;para&nbsp;
@@ -34,7 +35,7 @@ function renderChat(get) {
                 document.querySelector('.chat').innerHTML += `
                     <div class="status">
                         &nbsp;
-                        <span class="time">(${chat[i].time})</span>
+                        <span class="time">(${gmtConvert(chat[i].time)})</span>
                         &nbsp;
                         <span class="user">${chat[i].from}</span>
                         &nbsp;
@@ -48,7 +49,7 @@ function renderChat(get) {
                     document.querySelector('.chat').innerHTML += `
                         <div class="pvt-msg">
                             &nbsp;
-                            <span class="time">(${chat[i].time})</span>
+                            <span class="time">(${gmtConvert(chat[i].time)})</span>
                             &nbsp;
                             <span class="user">${chat[i].from}</span>
                             &nbsp;reservadamente&nbsp;para&nbsp;
@@ -69,18 +70,26 @@ function logIn(name) {
     console.log(`Login: ${username}`);
 
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",{name:username});
-    promise.then(setInterval(userOnline,5000)); //Especificação 5000ms
+    promise.then(userping = setInterval(userOnline,5000)); //Especificação 5000ms
     promise.catch(invalidUser);
 }
 function userOnline() {
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status",{name:username});
     promise.then(console.log(`Online: ${username}`));
     promise.catch(invalidUser);
+
+    if (!(document.querySelector("div.login").classList.contains("hidden")))
+        document.querySelector("div.login").classList.add("hidden");
 }
 function invalidUser(error) {
+    clearInterval(ping);
     console.log(error.response.status);
-    if (error.response.status === 400)
-        logIn(prompt('Nome de usuário já em uso! Insira um novo nome:'));
+    
+    if ((document.querySelector("div.login").classList.contains("hidden")))
+        document.querySelector("div.login").classList.remove("hidden");
+    document.querySelector("div.loading").classList.add("hidden");
+    document.querySelector("div.login h2.alert").classList.remove("hidden");
+    setTimeout(reloadLogIn,3000);
 }
 
 
@@ -101,11 +110,8 @@ function sendMsg() {
 }
 function failMsg(error) {
     console.log(error.response.status);
-    if (error.response.status === 400) {
-        console.log(error.response);
-        selectAll();
-        window.location.reload();
-    }
+    selectAll();
+    reloadLogIn();
 }
 
 
@@ -189,9 +195,35 @@ function inputEvent(event) {
     event.preventDefault();
 }
 
+function logInScreen() {
+    const name = document.querySelector("div.login input").value;
+    logIn(name);
+
+    document.querySelector("div.login div.loading").classList.remove("hidden");
+}
+function reloadLogIn() {
+    window.location.reload();
+}
+
+function gmtConvert(time) { 
+    let hour = time[0];
+    hour += time[1];
+    hour = Number(hour) - 3;
+    hour = String(hour);
+
+    let newtime = '';
+    if (hour.length < 2)
+        newtime += '0';
+    newtime += hour;
+    for (let i=2 ; i<time.length ; i++)
+        newtime += (time[i]);
+
+    return newtime;
+}
+
+
 
 refreshChat();
 initInput();
-logIn(prompt('Insira nome de usuário:'));
 setInterval(refreshChat, 3000); //Especificação 3000ms
-setInterval(activeUsers, 10000); //Especificação 10000ms
+setInterval(activeUsers, 3000); //Especificação 10000ms
